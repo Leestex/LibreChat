@@ -1,0 +1,56 @@
+# qlane test target: builds LibreChat from source with throwaway credentials.
+# Sandboxes are ephemeral and unreachable externally; do not reuse these secrets anywhere.
+# Docs: https://docs.qlane.ai/connect/docker-compose
+
+services:
+  api:
+    image: librechat-pr:qlane
+    pull_policy: build
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_MAX_OLD_SPACE_SIZE: 6144
+    ports:
+      - "3080:3080"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    env_file:
+      # Written by qlane from .env.example plus any variables configured on the test target
+      # (e.g. OPENAI_API_KEY); the overrides below win over it.
+      - path: .env
+        required: false
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3080
+      - MONGO_URI=mongodb://mongodb:27017/LibreChat
+      - DOMAIN_CLIENT=${QLANE_SANDBOX_PUBLIC_URL:-http://localhost:3080}
+      - DOMAIN_SERVER=${QLANE_SANDBOX_PUBLIC_URL:-http://localhost:3080}
+      - SEARCH=false
+      - ALLOW_EMAIL_LOGIN=true
+      - ALLOW_REGISTRATION=true
+      - ALLOW_UNVERIFIED_EMAIL_LOGIN=true
+      - CREDS_KEY=f34be427ebb29de8d88c107a71546019685ed8b241d8f2ed00c3df97ad2566f0
+      - CREDS_IV=e2341419ec3dd3d19b13a1a87fafcbfb
+      - JWT_SECRET=16f8c0ef4a5d391b26034086c628469d3f9f497f08163ab9b40137092f2909ef
+      - JWT_REFRESH_SECRET=eaa5191f2914e30b9387fd84e254e4ba6f51037ff8d7f9bf5d0e4fd3a1c4aac8
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 120s
+    labels:
+      ai.qlane.postdeploy: "npm run create-user -- qa@example.com QA qa qlane-test-password --email-verified=true"
+
+  mongodb:
+    image: mongo:8.0.20
+    command: mongod --noauth
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
