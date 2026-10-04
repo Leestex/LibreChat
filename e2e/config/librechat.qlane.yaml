@@ -1,0 +1,20 @@
+# Credential-free config for the qlane sandbox (docker-compose.qlane.yml).
+# The in-process fake model (e2e/setup/fake-model.js, loaded via
+# LIBRECHAT_TEST_RUN_HOOK) overrides each run's graph, so the placeholder
+# baseURL below is never contacted for replies. Messages containing the
+# E2E_* markers documented in fake-model.js trigger scripted behaviors
+# (thinking, tool calls, slow streams, forced errors).
+version: 1.3.17
+cache: true
+
+endpoints:
+  custom:
+    - name: 'Mock LLM'
+      apiKey: 'qlane-mock-key'
+      baseURL: 'http://127.0.0.1:9/v1'
+      models:
+        default:
+          - 'mock-model'
+        fetch: false
+      titleConvo: false
+      modelDisplayLabel: 'Mock LLM'
