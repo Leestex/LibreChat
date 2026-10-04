@@ -44,7 +44,7 @@ services:
       retries: 12
       start_period: 120s
     labels:
-      ai.qlane.postdeploy: "npm run create-user -- qa@example.com QA qa qlane-test-password --email-verified=true"
+      ai.qlane.postdeploy: "npm run create-user -- qa@example.com QATester qa qlane-test-password --email-verified=true"
 
   mongodb:
     image: mongo:8.0.20
