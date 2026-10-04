@@ -32,6 +32,9 @@ services:
       - ALLOW_REGISTRATION=true
       - ALLOW_UNVERIFIED_EMAIL_LOGIN=true
       # Credential-free chat: the "Mock LLM" endpoint is answered in-process by the e2e fake model.
+      # Hide the built-in provider endpoints (.env.example marks them user_provided) so the
+      # custom "Mock LLM" endpoint is the first and default choice, with agents still available.
+      - ENDPOINTS=custom,agents
       - CONFIG_PATH=/app/e2e/config/librechat.qlane.yaml
       - LIBRECHAT_TEST_RUN_HOOK=/app/e2e/setup/fake-model.js
       - MOCK_LLM_REPLY=Hello from the mock LLM.
