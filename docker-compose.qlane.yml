@@ -1,5 +1,5 @@
-# qlane test target: builds LibreChat from source with throwaway credentials.
-# Sandboxes are ephemeral and unreachable externally; do not reuse these secrets anywhere.
+# qlane test target: builds LibreChat from source in an ephemeral sandbox.
+# Sandboxes are discarded after each run and unreachable externally.
 # Docs: https://docs.qlane.ai/connect/docker-compose
 
 services:
@@ -35,10 +35,8 @@ services:
       - CONFIG_PATH=/app/e2e/config/librechat.qlane.yaml
       - LIBRECHAT_TEST_RUN_HOOK=/app/e2e/setup/fake-model.js
       - MOCK_LLM_REPLY=Hello from the mock LLM.
-      - CREDS_KEY=f34be427ebb29de8d88c107a71546019685ed8b241d8f2ed00c3df97ad2566f0
-      - CREDS_IV=e2341419ec3dd3d19b13a1a87fafcbfb
-      - JWT_SECRET=16f8c0ef4a5d391b26034086c628469d3f9f497f08163ab9b40137092f2909ef
-      - JWT_REFRESH_SECRET=eaa5191f2914e30b9387fd84e254e4ba6f51037ff8d7f9bf5d0e4fd3a1c4aac8
+      # CREDS_KEY, CREDS_IV, JWT_SECRET and JWT_REFRESH_SECRET are left unset on purpose:
+      # bootstrapCredentials generates temporary values inside the ephemeral container.
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3080/health"]
       interval: 10s
