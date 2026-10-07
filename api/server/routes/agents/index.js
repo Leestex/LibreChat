@@ -149,6 +149,33 @@ router.use((req, _res, next) => {
 router.use(checkBan);
 router.use(uaParser);
 
+/** A positive whole number from an env value, else `fallback`. */
+const positiveInt = (value, fallback) => {
+  const n = Number.parseInt(value ?? '', 10);
+  return Number.isInteger(n) && n > 0 ? n : fallback;
+};
+
+/**
+ * @route GET /chat/limits
+ * @desc The message rate limits that apply to the signed-in user, so a client can show them
+ * @access Private
+ * @returns {{ ip: { enabled: boolean, max: number, windowMinutes: number }, user: { enabled: boolean, max: number, windowMinutes: number } }}
+ */
+router.get('/chat/limits', (_req, res) => {
+  res.json({
+    ip: {
+      enabled: isEnabled(LIMIT_MESSAGE_IP),
+      max: positiveInt(process.env.MESSAGE_IP_MAX, 40),
+      windowMinutes: positiveInt(process.env.MESSAGE_IP_WINDOW, 1),
+    },
+    user: {
+      enabled: isEnabled(LIMIT_MESSAGE_USER),
+      max: positiveInt(process.env.MESSAGE_USER_MAX, 40),
+      windowMinutes: positiveInt(process.env.MESSAGE_USER_WINDOW, 1),
+    },
+  });
+});
+
 /**
  * Stream endpoints - mounted before chatRouter to bypass rate limiters
  * These are GET requests and don't need message body validation or rate limiting
