@@ -5,6 +5,10 @@
 Shared API types and services live in `packages/data-provider`, and the React app lives in
 `client` with shared primitives in `packages/client`.
 
+## Product priorities
+
+The most important feature for our users is Prompts (/prompts). A regression there hurts them most.
+
 ## Branching and pull requests
 
 Normally branch off `dev` and target `dev`; `gh pr create` defaults to `main`, so pass `--base dev`
