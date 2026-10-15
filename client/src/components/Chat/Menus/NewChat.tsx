@@ -24,7 +24,7 @@ export default function NewChat({ className }: { className?: string }) {
           size="icon"
           variant="outline"
           className={cn(
-            'size-9 flex-shrink-0 rounded-xl bg-presentation hover:bg-surface-active-alt',
+            'size-9 flex-shrink-0 overflow-hidden rounded-xl bg-presentation hover:bg-surface-active-alt',
             className,
           )}
         >
@@ -35,7 +35,7 @@ export default function NewChat({ className }: { className?: string }) {
             aria-keyshortcuts={ariaKey}
             onClick={handleNewChatClick}
           >
-            <NewChatIcon className="icon-md" aria-hidden="true" />
+            <NewChatIcon className="icon-md translate-x-5" aria-hidden="true" />
           </a>
         </Button>
       }
