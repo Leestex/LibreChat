@@ -18,3 +18,17 @@ endpoints:
         fetch: false
       titleConvo: false
       modelDisplayLabel: 'Mock LLM'
+
+# Exercises configurable/custom prompt categories (upstream LibreChat-AI/LibreChat#16574):
+# one new category, one built-in override, and author-created categories.
+prompts:
+  categories:
+    enableDefaultCategories: true
+    allowCustom: true
+    list:
+      - value: 'hr'
+        label: 'Human Resources'
+        icon: 'users'
+        color: 'series-7'
+      - value: 'code'
+        label: 'Engineering'
