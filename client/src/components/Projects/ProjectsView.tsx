@@ -256,6 +256,7 @@ export default function ProjectsView() {
       <ProjectsNavBar onCreate={() => setIsCreating(true)} />
 
       <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-10 pt-6 md:px-6 md:pt-8">
+        <h2 className="mb-4 text-lg font-semibold">{'Organização de projetos'.normalize('NFD')}</h2>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <label className="relative min-w-0 flex-1">
             <span className="sr-only">{localize('com_ui_search_projects')}</span>
