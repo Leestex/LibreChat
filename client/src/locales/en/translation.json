@@ -656,7 +656,7 @@
   "com_nav_archive_all_confirm_message": "Are you sure you want to archive all chats? They will be moved out of your chat list and remain available under Archived chats.",
   "com_nav_archive_created_at": "Date Archived",
   "com_nav_archive_name": "Name",
-  "com_nav_archived_chats": "Archived chats",
+  "com_nav_archived_chats": "Conversações arquivadas",
   "com_nav_at_command": "@-Command",
   "com_nav_at_command_description": "Toggle command \"@\" for switching endpoints, models, presets, etc.",
   "com_nav_audio_play_error": "Error playing audio: {{0}}",
